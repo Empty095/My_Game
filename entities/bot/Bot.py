@@ -10,10 +10,13 @@ class Bot:
         self.diff_nominal_hp = None
         self.counter_move = 0
 
-        if self.entity.nominal_hp - self.nominal_hp == 0:
-            self.diff_nominal_hp = 0
-        else:
-            self.diff_nominal_hp = (self.entity.nominal_hp - self.nominal_hp) / 100
+#метод активации ульты ИИ или просто атаки
+    def using_ult(self, enemy):
+        if self.entity.status_action["ult"] is not None:
+            if self.entity.status_action["ult"] == False:
+                self.action(enemy)
+            elif self.entity.status_action["ult"] == True:
+                self.entity.ult(enemy)
 
 #метод атаки врагов под управлением бота
     def action(self, enemy):
@@ -29,29 +32,47 @@ class Bot:
             else:
                 self.entity.defender_func(enemy)
 
+#
     def medium_level(self, enemy):
+        """
+        Метод представляет собой средний уровень ИИ для не игровых сущностей.
+        Он предназначен для сущностей, у которых есть возможность использовать ультимейт
+        и он проводит средний анализ/сравнения некоторых данных игрока для более точного решения действия.
+        """
+
+
         choice = random.randint(1, 100)
-        if self.nominal_hp == enemy.nominal_hp and self.entity.hp < enemy.hp - (enemy.hp * 0.3):
+        #получение разницы номинального хп ИИ и Игрока
+        self.diff_nominal_hp = self.entity.nominal_hp - enemy.nominal_hp
+        if self.diff_nominal_hp != 0:
+            self.diff_nominal_hp /= 100
+        elif self.diff_nominal_hp == 0:
+            self.diff_nominal_hp = 0
+
+        #получение разницы хп ИИ и Игрока
+        diff_hp = self.entity.hp - enemy.hp
+        if diff_hp != 0:
+            diff_hp /= 100
+        elif diff_hp == 0:
+            diff_hp = 0
+
+        #Основной алгоритм проверки и принятия решения ИИ
+        #1. Проверка номинального хп на равенство с ном. хп игрока и на разницу в 30% игрового хп
+        if self.nominal_hp == enemy.nominal_hp and (diff_hp > 0.3 or diff_hp < 0.3):
             if enemy.damage < self.entity.hp * 0.2:
                 print("1.0")
-                if self.entity.status_action["ult"] is not None:
-                    if self.entity.status_action["ult"] == False:
-                        print("1.1")
-                        self.action(enemy)
-                    elif self.entity.status_action["ult"] == True:
-                        print("1.2")
-                        self.entity.ult(enemy)
+                self.using_ult(enemy)
+            elif enemy.damage > self.entity.hp * 0.2:
+                if choice > 35:
+                    self.entity.defender_func(enemy)
+                elif choice <= 35:
+                    self.using_ult(enemy)
+        #2. Проверка номинального хп на разницу +20% от ном. хп игрока
         elif self.diff_nominal_hp >= 0.2:
-            if enemy.damage > self.nominal_hp * 0.15:
+            if enemy.damage < self.nominal_hp * 0.15:
                 print("2.0")
-                if self.entity.status_action["ult"] is not None:
-                    if self.entity.status_action["ult"] == False:
-                        print("2.1")
-                        self.entity.attack(enemy, self.entity)
-                    elif self.entity.status_action["ult"] == True:
-                        print("2.2")
-                        self.entity.ult(enemy)
-            elif enemy.damage < self.nominal_hp * 0.15:
+                self.using_ult(enemy)
+            elif enemy.damage > self.nominal_hp * 0.15:
                 if self.counter_move % 2 == 0:
                     print("2.3")
                     self.entity.defender_func(enemy)
@@ -59,30 +80,23 @@ class Bot:
                     print("2.4")
                     self.entity.attack(enemy, self.entity)
                 self.counter_move += 1
-        elif self.diff_nominal_hp < -0.25:
+        #3. Проверка номинального хп на разницу -20% от ном. хп игрока
+        elif self.diff_nominal_hp <= -0.2:
             if enemy.damage > self.nominal_hp * 0.15:
                 print("3.0")
                 if choice > 25:
                     print("3.1")
                     self.entity.defender_func(enemy)
                 elif choice <= 25:
-                    if self.entity.status_action["ult"] is not None:
-                        print("3.2")
-                        if self.entity.status_action["ult"] == False:
-                            self.entity.attack(enemy, self.entity)
-                        elif self.entity.status_action["ult"] == True:
-                            self.entity.ult(enemy)
-            elif enemy.damage < self.nominal_hp * 0.15:
+                    self.using_ult(enemy)
+            elif enemy.damage <= self.nominal_hp * 0.15:
                 print("3.3")
                 if choice > 45:
                     self.entity.defender_func(enemy)
                 elif choice <= 45:
                     print("3.4")
-                    if self.entity.status_action["ult"] is not None:
-                        if self.entity.status_action["ult"] == False:
-                            self.entity.attack(enemy, self.entity)
-                        elif self.entity.status_action["ult"] == True:
-                            self.entity.ult(enemy)
+                    self.using_ult(enemy)
+        #Если ничего не сработает, то происходит просто атака
         else:
             print("3.5")
             self.action(enemy)
