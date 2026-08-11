@@ -53,22 +53,25 @@ class Entity:
                     if entity.status_action["defender"] is None:
                         self.counter += 1
                         entity.hp -= self.damage
+                        print(f"{self.name} наносит {self.damage} обычной атакой.")
                     #если есть защита, то атака игнорируется
                     elif entity.status_action["defender"] is True:
                         entity.status_action["defender"] = None
                         self.counter = 0
                         entity.hp -= 0
+                        print(f"{entity.name} поставил блок. Атака не прошла.")
                     #но если защита не прошла, атака пройдет двойным уроном
                     elif entity.status_action["defender"] is False:
                         entity.status_action["defender"] = None
                         self.counter += 1
+                        print(f"{entity.name} применил защиту, но она не прошла. {self.name} наносит атаку с повышенным уроном {self.damage * 2}.")
                         entity.hp -= self.damage * 2
                     #ну и после, статус атаки вернётся в ложь
                     self.status_action["attack"] = False
                 elif entity.hp <= 0:
                     entity.hp = 0
         except TypeError:
-            print(f"{entity.name} has no hp attribute")
+            print(f"У {entity.name} отсутствует атрибут ХП")
 
     #метод зашиты (доработать логику)
     def defender_func(self, entity):
@@ -77,18 +80,27 @@ class Entity:
         #проверка урона атакующего и шанса, если шанс будет больше 65% то выполняется защита, а если нет, то двойная атака
         if choice >= 65:
             self.status_action["defender"] = True
-            print(f"{self.name} def")
+            print(f"{self.name} поставил защиту.")
         else:
             self.status_action["defender"] = False
-            print(f"{self.name} have not the def")
+            print(f"{self.name} не удалось поставить защиту.")
 
         if entity.status_action["defender"] is True:
             self.hp += 5
 
     #Каркас ультимейта для сущностей
     def ult(self, entity):
-        pass
+        print(f"У {self.name} отсутствует ульта")
 
     #Каркас метода алгоритма атаки сущностей
     def auto_action(self, enemy):
         pass
+
+    #Метод вывода статистики сущности которая передаётся в качестве параметра
+    @staticmethod
+    def output_info(entity):
+        print(f"""
+                Информация {entity.name}
+                -HP: {entity.hp}
+                -Damage: {entity.damage}
+                """)
