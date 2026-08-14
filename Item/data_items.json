@@ -1,0 +1,47 @@
+{
+  "items": {
+    "weapon": {
+      "weapon_0": {
+        "name": "Sword",
+        "dmg": 10,
+        "health": 0,
+        "defender": 0,
+        "weight": 3
+      },
+      "weapon_1": {
+        "name": "Reaper's Scythe",
+        "dmg": 15,
+        "health": 0,
+        "defender": 0,
+        "weight": 2
+      }
+    },
+    "armor": {
+      "armor_0": {
+        "name": "Iron Set",
+        "dmg": 0,
+        "health": 0,
+        "defender": 150,
+        "weight": 10
+      }
+    },
+    "food": {
+      "food_0": {
+        "name": "Apple",
+        "dmg": 0,
+        "health": 50,
+        "defender": 0,
+        "weight": 0.5
+      }
+    },
+    "special_item": {
+      "special_item_0": {
+        "name": "Totem God",
+        "dmg": 200,
+        "health": 1000,
+        "defender": 100,
+        "weight": 0
+      }
+    }
+  }
+}
