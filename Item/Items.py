@@ -1,6 +1,10 @@
 import json
+from pathlib import Path
 
-with open(f"Item\data_items.json", 'r', encoding = "utf-8") as f:
+BASE_DIR = Path(__file__).resolve().parent
+JSON_FILE = BASE_DIR / "data_items.json"
+
+with open(JSON_FILE, 'r', encoding = "utf-8") as f:
     data = json.load(f)
 
 class Item:
