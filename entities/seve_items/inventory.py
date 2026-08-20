@@ -51,37 +51,90 @@ class Inventory:
     def filter_inventory(self):
         pass
 
-    def action_inventory(self):
-        print(f"""
-        ДЕЙСТВИЕ
-        1. Удалить предмет из инвентаря
-        2. Использовать выбранный предмет
-        3. Статистика предмета
-        4. Проверить доступные предметы по категории
-        """)
-        try:
-            choice = int(input("Введите номер действия которое собираетесь выполнить: "))
-            match choice:
-                case 1:
-                    self.del_item()
-                case 2:
-                    self.using_item()
-                case 3:
-                    self.info_item()
-                case 4:
-                    self.filter_inventory()
-                case _:
-                    print("Неверный номер действия. Выберете только тот номер и действие, которые указаны в списке.")
-        except ValueError:
-            print("Ошибка ввода. Ввод принимает только числовое значение")
+    # def action_inventory(self):
+    #     print(f"""
+    #     ДЕЙСТВИЕ
+    #     1. Удалить предмет из инвентаря
+    #     2. Использовать выбранный предмет
+    #     3. Статистика предмета
+    #     4. Проверить доступные предметы по категории
+    #     """)
+    #     try:
+    #         choice = int(input("Введите номер действия которое собираетесь выполнить: "))
+    #         match choice:
+    #             case 1:
+    #                 choice_item = int(input("Введите индекс объекта в инвентаре который хотите удалить: "))
+    #                 if choice_item in self.bag:
+    #                     self.del_item(choice_item)
+    #                 else:
+    #                     print("Неверный вод. Введите только идецс предмета с которым хотитеть провети действие.")
+    #             case 2:
+    #                 choice_item = int(input("Введите индекс объекта в инвентаре который хотите использовать: "))
+    #                 if choice_item in self.bag:
+    #                     self.using_item(choice_item)
+    #                 else:
+    #                     print("Неверный вод. Введите только идецс предмета с которым хотитеть провети действие.")
+    #             case 3:
+    #                 choice_item = int(input("Введите индекс объекта в инвентаре о котором хотите узнать инфрмацию: "))
+    #                 if choice_item in self.bag:
+    #                     self.info_item(choice_item)
+    #                 else:
+    #                     print("Неверный вод. Введите только идецс предмета с которым хотитеть провети действие.")
+    #             case 4:
+    #                 self.filter_inventory()
+    #             case _:
+    #                 print("Неверный номер действия. Выберете только тот номер и действие, которые указаны в списке.")
+    #     except ValueError:
+    #         print("Ошибка ввода. Ввод принимает только числовое значение")
 
     #метод вывода информации о инвентаре (тест пройден)
     def list_inventory(self):
         show_dict = lambda d: print(*(f"{k}: {v.name if v else 'пусто'}" for k, v in d.items()), sep="\n")
 
-        print(f"""ИНВЕНТАРЬ
-        {show_dict(self.bag)}
-        Оружие: {self.items_slots["weapon"]}
-        Броня: {self.items_slots["armor"]}
-        Вспомогательное средство: {self.items_slots["food"]}""")
-        #self.action_inventory()
+        while True:
+            print(f"""ИНВЕНТАРЬ
+                    {show_dict(self.bag)}
+                    Оружие: {self.items_slots["weapon"]}
+                    Броня: {self.items_slots["armor"]}
+                    Вспомогательное средство: {self.items_slots["food"]}""")
+            print(f"""
+                            ДЕЙСТВИЕ
+                            1. Удалить предмет из инвентаря
+                            2. Использовать выбранный предмет
+                            3. Статистика предмета
+                            4. Проверить доступные предметы по категории
+                            """)
+            try:
+                choice = int(input("Введите номер действия которое собираетесь выполнить: "))
+                match choice:
+                    case 1:
+                        choice_item = int(input("Введите индекс объекта в инвентаре который хотите удалить: "))
+                        if choice_item in self.bag:
+                            self.del_item(choice_item)
+                        else:
+                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                            continue
+                    case 2:
+                        choice_item = int(input("Введите индекс объекта в инвентаре который хотите использовать: "))
+                        if choice_item in self.bag:
+                            self.using_item(choice_item)
+                        else:
+                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                            continue
+                    case 3:
+                        choice_item = int(
+                            input("Введите индекс объекта в инвентаре о котором хотите узнать информацию: "))
+                        if choice_item in self.bag:
+                            self.info_item(choice_item)
+                        else:
+                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                            continue
+                    case 4:
+                        self.filter_inventory()
+                    case _:
+                        print("Неверный номер действия. Выберете только тот номер и действие, которые указаны в списке.")
+                        continue
+                break
+            except ValueError:
+                print("Ошибка ввода. Ввод принимает только числовое значение")
+                continue
