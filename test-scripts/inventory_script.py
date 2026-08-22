@@ -18,4 +18,4 @@ x.add_item(LIST_ITEMS[0])
 x.add_item(LIST_ITEMS[1])
 x.add_item(LIST_ITEMS[2])
 
-x.list_inventory()
+x.info_inventory()
