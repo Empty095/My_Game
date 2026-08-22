@@ -1,5 +1,5 @@
 from entities.Entity import Entity
-from entities.seve_items.inventory import Inventory
+from entities.save_items.inventory import Inventory
 
 class Player(Entity):
     def __init__(self, name = None, type_obj = "player", hp = 100, defender = 5, damage = 15, inventory = Inventory(40)):

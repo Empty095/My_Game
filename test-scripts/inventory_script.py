@@ -1,4 +1,4 @@
-from entities.seve_items.inventory import Inventory
+from entities.save_items.inventory import Inventory
 from Item.Items import Item
 
 LIST_ITEMS = [Item("weapon", "weapon_0"), Item("armor", "armor_0"), Item("food", "food_0")]

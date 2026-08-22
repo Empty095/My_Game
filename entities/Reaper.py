@@ -1,5 +1,5 @@
 from entities.Entity import Entity
-from entities.seve_items.inventory import Inventory
+from entities.save_items.inventory import Inventory
 from entities.bot.Bot import Bot
 
 class Reaper(Entity):
