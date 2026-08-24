@@ -29,20 +29,20 @@ class Game:
     #меню выбора действий
     def action_menu(self, entity, enemy):
         while True:
-            #Отлов ошибки несоответствия типа введёных данных
+            #Отлов ошибки несоответствия типа введённых данных
             try:
                 choice = int(input(f"""Меню выбора действий
                         Введите номер действия из списка ниже:
                         1. Атака - наносит {entity.damage} урона.
                         2. Защита - активирует защиту и блокирует атаку врага с вероятностью 35%.
-                        3. Ульта - мощная атака по врагу. (не работает и находится в разработке).
+                        3. Ульта - мощная атака по врагу.
                         4. Данные о враге - выводит информацию о враге.
                         5. Личные данные - выводит информацию о ваших характеристиках.
                         Поле ввода: """))
                 match choice:
                     case 1:
                         #атака
-                        entity.attack(enemy, entity)
+                        enemy.take_damage(entity.total_dmg(), entity)
                         break
                     case 2:
                         #защита
@@ -70,8 +70,6 @@ class Game:
             self.action_menu(player, enemy)
         elif player.type_obj == "entity":
             player.auto_action(enemy)
-
-        player.attack(enemy)
 
     #Основной игровой метод, хранящий цикл боя и игры в целом
     def play(self):

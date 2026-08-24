@@ -3,7 +3,7 @@ from entities.save_items.inventory import Inventory
 
 class Player(Entity):
     def __init__(self, name = None, type_obj = "player", hp = 100, defender = 5, damage = 15, inventory = Inventory(40)):
-        super(Player, self).__init__(name, type_obj, hp, defender, damage)
+        super(Player, self).__init__(name, type_obj, hp, defender, damage, inventory)
         self.inventory = inventory
 
 #проверка на наличие никак игрока
@@ -22,4 +22,4 @@ class Player(Entity):
         else:
             print(f"Условия ультимейта не выполнены. Нанесите ещё {4 - self.counter} для возможности применения."
                   f"Так как условия для пронзающего удара не выполнены, удар был обычным.")
-            self.attack(entity, self)
+            entity.take_damage(self.total_dmg(), self)

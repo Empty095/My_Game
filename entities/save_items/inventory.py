@@ -67,7 +67,7 @@ class Inventory:
             print(f"По категории {category} ничего не найдено. Повторите попытку")
 
 
-    #Метод вывода информации о инвентаре и меню действия с ним. БУДЕТ РЕФАКТОРИНГ
+    #Метод вывода информации о инвентаре и меню действия с ним.
     def info_inventory(self):
         show_dict = lambda d: print(*(f"{k}: {v.name if v else 'пусто'}" for k, v in d.items()), sep="\n")
 

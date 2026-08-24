@@ -23,12 +23,14 @@ class Bot:
         choice = random.randint(1, 100)
         if self.entity.hp >= self.nominal_hp - (self.nominal_hp * 0.6):
             if choice > 20:
-                self.entity.attack(enemy, self.entity)
+                #self.entity.attack(enemy, self.entity)
+                enemy.take_damage(self.entity.total_dmg(), enemy)
             else:
                 self.entity.defender_func(enemy)
         elif self.entity.hp <= self.nominal_hp - (self.nominal_hp * 0.6):
             if choice > 60:
-                self.entity.attack(enemy, self.entity)
+                #self.entity.attack(enemy, self.entity)
+                enemy.take_damage(self.entity.total_dmg(), enemy)
             else:
                 self.entity.defender_func(enemy)
 
@@ -78,9 +80,10 @@ class Bot:
                     self.entity.defender_func(enemy)
                 else:
                     print("2.4")
-                    self.entity.attack(enemy, self.entity)
+                    #self.entity.attack(enemy, self.entity)
+                    enemy.take_damage(self.entity.total_dmg(), enemy)
                 self.counter_move += 1
-        #3. Проверка номинального хп на разницу -20% от ном. хп игрока
+        #3. Проверка номинального хп на разницу -20% от ном. хп игрока (требуется доработка)
         elif self.diff_nominal_hp <= -0.2:
             if enemy.damage > self.nominal_hp * 0.15:
                 print("3.0")
