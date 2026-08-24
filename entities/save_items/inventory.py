@@ -19,9 +19,9 @@ class Inventory:
             if self.bag[index] is not None:
                 self.bag[index] = None
             else:
-                print("Ячейка пуста")
-        elif index not in self.bag:
-            print(f"Данная ячейка отсутствует.")
+                print(f"Слот {index} пустой")
+        else:
+            print(f"Неверный ввод. Слот с индексом {index} не существует. Введите номер слота который представлен в списке для применения данного действия.")
 
     #метод использования вещей из инвентаря
     def using_item(self, index):
@@ -37,20 +37,25 @@ class Inventory:
                     self.bag[index] = None
             else:
                 print(f"Слот {index} пустой.")
+        else:
+            print(f"Неверный ввод. Слот с индексом {index} не существует. Введите номер слота который представлен в списке для применения данного действия.")
 
     #Метод просмотра информации о предмете в инвентаре
     def info_item(self, index):
-        if index in self.bag and self.bag[index] is not None:
-            print(f"""ИНФОРМАЦИЯ ПРЕДМЕТА {self.bag[index].name.upper()}
-            Название: {self.bag[index].name}
-            Тип снаряжения: {self.bag[index].type_item}
-            Вес: {self.bag[index].weight}
-            Урон: {self.bag[index].dmg}
-            Защита: {self.bag[index].defender}
-            Лечение: {self.bag[index].health}
-            """)
+        if index in self.bag:
+            if self.bag[index] is not None:
+                print(f"""ИНФОРМАЦИЯ ПРЕДМЕТА {self.bag[index].name.upper()}
+                Название: {self.bag[index].name}
+                Тип снаряжения: {self.bag[index].type_item}
+                Вес: {self.bag[index].weight}
+                Урон: {self.bag[index].dmg}
+                Защита: {self.bag[index].defender}
+                Лечение: {self.bag[index].health}
+                """)
+            else:
+                print(f"Слот {index} пустой.")
         else:
-            print("Ячейка пуста")
+            print(f"Неверный ввод. Слот с индексом {index} не существует. Введите номер слота который представлен в списке для применения данного действия.")
 
     #Метод поиска вещей по категории
     def filter_inventory(self, category):
@@ -62,8 +67,8 @@ class Inventory:
             print(f"По категории {category} ничего не найдено. Повторите попытку")
 
 
-    #метод вывода информации о инвентаре и меню действия с ним. БУДЕТ РЕФАКТОРИНГ
-    def list_inventory(self):
+    #Метод вывода информации о инвентаре и меню действия с ним. БУДЕТ РЕФАКТОРИНГ
+    def info_inventory(self):
         show_dict = lambda d: print(*(f"{k}: {v.name if v else 'пусто'}" for k, v in d.items()), sep="\n")
 
         while True:
@@ -84,22 +89,13 @@ class Inventory:
                 match choice:
                     case 1:
                         choice_item = int(input("Введите индекс объекта в инвентаре который хотите удалить: "))
-                        if choice_item in self.bag:
-                            self.del_item(choice_item)
-                        else:
-                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                        self.del_item(choice_item)
                     case 2:
                         choice_item = int(input("Введите индекс объекта в инвентаре который хотите использовать: "))
-                        if choice_item in self.bag:
-                            self.using_item(choice_item)
-                        else:
-                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                        self.using_item(choice_item)
                     case 3:
                         choice_item = int(input("Введите индекс объекта в инвентаре о котором хотите узнать информацию: "))
-                        if choice_item in self.bag:
-                            self.info_item(choice_item)
-                        else:
-                            print("Неверный вод. Введите только индекс предмета с которым хотите провести действие.")
+                        self.info_item(choice_item)
                     case 4:
                         choice_item = input("Введите название категории предметов которые вы ищете в инвентаре: ")
                         self.filter_inventory(choice_item)
