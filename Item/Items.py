@@ -20,17 +20,6 @@ class Item:
         self.defender = item_data["defender"]
         self.weight = item_data["weight"]
 
-    def bonus_dmg(self, func):
-        def bonus(*args, **kwargs):
-            entity_attack = func(*args, **kwargs)
-            return entity_attack + self.dmg
-        return bonus
-
-    def bonus_def(self, func):
-        def bonus(*args, **kwargs):
-            entity_attack = func(*args, **kwargs)
-            return entity_attack - self.defender
-        return bonus
-
-    def bonus_health(self, entity_hp):
-        return entity_hp + self.health
+    #Метод для налаживания эффектов на сущность через предметы
+    def add_effect(self, effect, entity):
+        pass
