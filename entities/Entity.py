@@ -25,14 +25,18 @@ class Entity:
             "ult":None
         }
 
+    #Метод подсчета наносимого урона с учетом всех характеристик и эффектов
     def total_dmg(self):
         if self.inventory is not None and self.inventory.items_slots["weapon"] is not None:
             return self.damage + self.inventory.items_slots["weapon"].dmg
         else:
             return self.damage
 
+    #Метод получения урона и вычитания из хп, его суммы
     def take_damage(self, dmg_received, enemy):
+        #Цикл проверки есть ли защита у сущности и выбор ответного действия на атаку
         while True:
+            #Сама проверка активной защиты у сущности
             if self.status_action["defender action"] is True:
                 print(f"{self.name} заблокировал удар, который должен был нанести {dmg_received} урона.")
                 enemy.counter = 0
@@ -41,7 +45,13 @@ class Entity:
             elif self.status_action["defender action"] is False:
                 break
 
-            choice = int(input(f"{enemy.name} готовится нанести удар, но вы можете заблокировать его. Блокировать? 1 - да, 2 - нет: "))
+            #Поверка кем является сущность по типу и соответственно, игрок сам вводит вариант действия, а если сущность является с ии, то выполняется алгоритм ии
+            if self.type_obj == "player":
+                choice = int(input(f"{enemy.name} готовится нанести удар, но вы можете заблокировать его. Блокировать? 1 - да, 2 - нет: "))
+            else:
+                choice = self.bot.answer()
+
+            #проверка выбора ответа на атаку
             if choice == 1:
                 self.defender_func(enemy)
             elif choice == 2:
@@ -49,6 +59,7 @@ class Entity:
             else:
                 print("Неверный ввод. Ведите только представлений выбор.")
 
+        #Если защита не активировалась, то идёт нанесение урона (будет немного доработано)
         if self.status_action["defender action"] is None:
             self.hp -= dmg_received
             print(f"{enemy.name} наносит {dmg_received} урона. У вас осталось {self.hp} здоровья.")

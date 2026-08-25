@@ -90,7 +90,7 @@ class Game:
                     var = input("Да/Нет: ")
                     if var == "Да":
                         break
-                    #Тут нужно сделать логику отказа от боя. Детали в ТЗ
+                    #Не работает и находится на стадии разработки
                     elif var == "Нет":
                         self.choice_varNo = random.randint(1, 100)
                         break
