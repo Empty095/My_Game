@@ -13,10 +13,8 @@ class Entity:
         self.counter = 0
         self.inventory = inventory
 
-        #словарь хранящий игровые статусы
-        self.status = {
-            "bleeding":False
-        }
+        #Container for entity effects
+        self.effects = []
 
         #словарь хранящий статусы действий
         self.status_action = {
